@@ -1,0 +1,24 @@
+2020-05-31 14:42:05,229 __main__ 25 INFO Factoriel of -1 is None
+2020-05-31 14:43:03,174 __main__ 22 INFO Factoriel of -1 is None
+2020-05-31 14:44:30,403 __main__ 21 INFO argument to this function must be 0 or a positive integer
+2020-05-31 14:44:30,403 __main__ 25 INFO Factoriel of -1 is None
+2020-05-31 14:44:44,356 __main__ 25 INFO Factoriel of 5 is 120
+2020-05-31 14:45:52,359 __main__ 33 INFO Factoriel of 5 is 120
+2020-05-31 14:45:56,654 __main__ 33 INFO Factoriel of 5 is 120
+2020-05-31 14:46:08,750 __main__ 33 INFO Factoriel of -2 is None
+2020-05-31 14:46:32,748 __main__ 33 INFO Factoriel of -2 is None
+2020-05-31 14:46:51,204 __main__ 21 INFO argument to this function must be 0 or a positive integer
+2020-05-31 14:47:31,997 __main__ 21 INFO argument to this function must be 0 or a positive integer
+2020-05-31 14:47:31,997 __main__ 25 INFO Factoriel of -2 is None
+2020-05-31 14:47:55,011 __main__ 21 ERROR argument to this function must be 0 or a positive integer
+2020-05-31 14:47:55,011 __main__ 25 INFO Factoriel of -2 is None
+2020-05-31 14:48:13,537 __main__ 21 WARNING argument to this function must be 0 or a positive integer
+2020-05-31 14:48:13,537 __main__ 25 INFO Factoriel of -2 is None
+2020-05-31 14:48:48,998 __main__ 21 WARNING argument to this function must be 0 or a positive integer
+2020-05-31 14:48:48,998 __main__ 25 INFO Factoriel of -2 is None
+2020-05-31 14:51:58,137 __main__ 25 WARNING argument to this function must be 0 or a positive integer
+2020-05-31 14:51:58,138 __main__ 29 INFO Factoriel of -2 is None
+2020-05-31 14:52:44,115 __main__ 26 WARNING argument to this function must be 0 or a positive integer
+2020-05-31 14:52:44,115 __main__ 30 INFO Factoriel of -2 is None
+2020-05-31 14:53:20,755 __main__ 26 WARNING argument to this function must be 0 or a positive integer
+2020-05-31 14:53:20,755 __main__ 30 INFO Factoriel of -2 is None

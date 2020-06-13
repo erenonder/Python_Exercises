@@ -1,0 +1,5 @@
+context manager with function
+secon line is here and this
+should be the third line
+how many words can i write in a 
+second.
