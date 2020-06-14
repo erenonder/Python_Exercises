@@ -7,7 +7,7 @@ import sys
 import os
 import time
 import threading
-# from PyQt5.QtMultimedia import QSound
+from PyQt5.QtMultimedia import QSound
 
 # from Dialog import *
 from tictactoe_ui import Ui_tictactoe
@@ -22,6 +22,13 @@ class Game(QMainWindow, Ui_tictactoe):
         self.player = "Player1"
 
         self.button_val_list = []
+
+        self.sounds = dict(circle=QSound("circle.wav"),
+                           cross=QSound("cross.wav"),
+                           win=QSound("win.wav"),
+                           lose=QSound("lose.wav"))
+
+        # print(self.sounds)
 
         for i in range(9):
             self.button_val_list.append(i)
@@ -97,7 +104,8 @@ class Game(QMainWindow, Ui_tictactoe):
         self.button_to_disable.setEnabled(False)
 
     def end_game(self):
-        # print(f'Game Over {self.player} wins')
+        self.sounds["win"].play()
+        time.sleep(3)
         msgBox = QMessageBox()
         msgBox.setIcon(QMessageBox.Information)
         msgBox.setText(f'Game Over {self.player} wins')
