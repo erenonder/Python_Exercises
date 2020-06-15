@@ -5,16 +5,16 @@ from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 import sys
 import os
-import time
+# import time
 import threading
 from PyQt5.QtMultimedia import QSound
-
-# from Dialog import *
+import logging
 from tictactoe_ui import Ui_tictactoe
 
 
 class Game(QMainWindow, Ui_tictactoe):
     sleep_time_seconds = 0.5
+    reset_game_time = 2.0
 
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -23,17 +23,22 @@ class Game(QMainWindow, Ui_tictactoe):
 
         self.button_val_list = []
 
-        self.sounds = dict(circle=QSound("circle.wav"),
-                           cross=QSound("cross.wav"),
-                           win=QSound("win.wav"),
-                           lose=QSound("lose.wav"))
+        self.sounds = dict(circle=QSound("Sounds/circle.wav"),
+                           cross=QSound("Sounds/cross.wav"),
+                           win=QSound("Sounds/win.wav"),
+                           lose=QSound("Sounds/lose.wav"))
+        self.set_log_properties()
 
-        # print(self.sounds)
+        self.logger.info(self.sounds)
 
         for i in range(9):
             self.button_val_list.append(i)
 
         self.allButtons = self.frame.findChildren(QToolButton)
+
+        self.actionNew_Game.triggered.connect(self.reset_game)
+        # self.actionDark_Theme.toggled.connect(self.dark_theme)
+        self.action_Exit.triggered.connect(self.close)
 
         xIconPath = os.path.join("Icons", "x.png")
         oIconPath = os.path.join("Icons", "o.png")
@@ -47,10 +52,17 @@ class Game(QMainWindow, Ui_tictactoe):
         for button in self.allButtons:
             button.pressed.connect(self.button_clicked)
 
+    def set_log_properties(self):
+        self.logger = logging.getLogger(__name__)
+        self.logger.setLevel(level=logging.WARNING)
+        file_handler = logging.FileHandler(filename='game_log.log')
+        formatter = logging.Formatter(fmt='%(asctime)s %(name)s %(lineno)s %(levelname)s %(message)s')
+        file_handler.setFormatter(formatter)
+        self.logger.addHandler(file_handler)
+
     def button_clicked(self):
         button = self.sender()
-        # print(f"button clicked {button}")
-        # button.setText("1")
+        self.logger.info(f"button clicked {button}")
         if self.player == "Player1":
             button.setIcon(self.xIcon)
             button_value = 'x'
@@ -64,13 +76,13 @@ class Game(QMainWindow, Ui_tictactoe):
 
         button_index = int(button.objectName()[6]) - 1
 
-        # print(button_name[6])
+        self.logger.debug(button_index)
 
         self.check_game(button_index, button_value)
 
     def check_game(self, button_index, button_value):
         self.button_val_list[button_index] = button_value
-        print(self.button_val_list)
+        self.logger.info(self.button_val_list)
 
         horizontal_check = [[0, 1, 2], [3, 4, 5], [6, 7, 8]]
         vertical_check = [[0, 3, 6], [1, 4, 7], [2, 5, 8]]
@@ -94,25 +106,30 @@ class Game(QMainWindow, Ui_tictactoe):
         if winner:
             self.end_game()
         else:
-            if self.player == "Player1":
-                self.player = "Player2"
+            for check in self.button_val_list:
+                if check != 'x' and check != 'o':
+                    if self.player == "Player1":
+                        self.sounds["cross"].play()
+                        self.player = "Player2"
+                    else:
+                        self.sounds["circle"].play()
+                        self.player = "Player1"
+                    break
             else:
-                self.player = "Player1"
+                self.logger.info('DRAW')
+                self.sounds["lose"].play()
+                reset_game_thread = threading.Timer(self.reset_game_time, self.reset_game)
+                reset_game_thread.start()
 
     def disable_button(self):
-        # print("disable now")
+        self.logger.info("disable now")
         self.button_to_disable.setEnabled(False)
 
     def end_game(self):
         self.sounds["win"].play()
-        time.sleep(3)
-        msgBox = QMessageBox()
-        msgBox.setIcon(QMessageBox.Information)
-        msgBox.setText(f'Game Over {self.player} wins')
-
-        returnValue = msgBox.exec()
-        if returnValue == QMessageBox.Ok:
-            self.reset_game()
+        self.logger.info(f'Game Over {self.player} wins')
+        reset_game_thread = threading.Timer(self.reset_game_time, self.reset_game)
+        reset_game_thread.start()
 
     def reset_game(self):
 
@@ -127,6 +144,15 @@ class Game(QMainWindow, Ui_tictactoe):
             button.setText("")
             button.setIcon(QIcon())
             button.setEnabled(True)
+
+    def show_winner(self):
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Information)
+        msgBox.setText(f'Game Over {self.player} wins')
+
+        returnValue = msgBox.exec()
+        if returnValue == QMessageBox.Ok:
+            self.reset_game()
 
 
 if __name__ == "__main__":
