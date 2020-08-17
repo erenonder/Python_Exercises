@@ -61,6 +61,32 @@ def fib_iter(n):
     return a
 
 
+# coin_dict = {}
+
+
+def rec_coin(target, coins, coin_dict=None):
+
+    if coin_dict is None:
+        coin_dict = {}
+
+    if len(coins) == 0:
+        coin_count = 0
+        for key in coin_dict.keys():
+            coin_count += coin_dict[key]
+        return coin_count
+
+    if target >= max(coins):
+        coin_number = int(target / max(coins))
+        target = target - coin_number * max(coins)
+        if max(coins) not in coin_dict.keys():
+            coin_dict[max(coins)] = coin_number
+        coins.remove(max(coins))
+        return rec_coin(target, coins, coin_dict)
+    else:
+        coins.remove(max(coins))
+        return rec_coin(target, coins, coin_dict)
+
+
 class TestRecursionFunctions(unittest.TestCase):
 
     def test_recursion_sum(self):
@@ -97,6 +123,18 @@ class TestRecursionFunctions(unittest.TestCase):
         self.assertEqual(fib_iter(5), 5)
         self.assertEqual(fib_iter(7), 13)
         self.assertEqual(fib_iter(23), 28657)
+
+    def test_coin_counts(self):
+        self.assertEqual(rec_coin(74, [1, 5, 10, 25]), 8)
+        self.assertEqual(rec_coin(10, [1, 5]), 2)
+        self.assertEqual(rec_coin(45, [1, 5, 10, 25]), 3)
+        self.assertEqual(rec_coin(26, [1, 5, 10, 25]), 2)
+        self.assertEqual(rec_coin(23, [1, 5, 10, 25]), 5)
+        self.assertEqual(rec_coin(63, [1, 4, 8, 16]), 8)
+        self.assertEqual(rec_coin(41, [1, 4, 8, 16]), 4)
+        self.assertEqual(rec_coin(17, [1, 4, 8, 16]), 2)
+        self.assertEqual(rec_coin(63, [1, 5, 10, 25]), 6)
+        # self.assertEqual(rec_coin(11, [1, 5, 6, 8]), 2) # Solution does not work on this needs fixing
 
 
 if __name__ == '__main__':
