@@ -5,6 +5,6 @@ def deco_timer(func):
         before = time.time()
         rv = func(*args, **kwargs)
         after = time.time()
-        print(f'Time took to run function {func.__name__} is {after-before}')
+        print(f'Time took to run function {func.__name__} is {after - before}')
         return rv
     return wrapper
