@@ -15,6 +15,7 @@ def bubble_sort(arr):
                 phase += 1
                 # print(f'phase {phase}: arr: {arr} count: {count}')
 
+
 def selection_sort(arr):
 
     for n in range(len(arr) - 1):
@@ -38,6 +39,7 @@ def insertion_sort(arr):
             position = position - 1
 
         arr[position] = current_value
+
 
 class TestSorting(unittest.TestCase):
 

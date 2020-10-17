@@ -26,6 +26,7 @@ class Employee:
 emp_1 = Employee('Onder', pay=50000)
 emp_2 = Employee('Nihan', last='Ocak')
 
+
 # print(emp_2.fullname())
 # print(Employee.fullname(emp_1))
 # print(emp_2)

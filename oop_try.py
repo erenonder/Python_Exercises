@@ -17,6 +17,18 @@ class Employee():
     def apply_raise(self):
         self.pay = int(self.pay * Employee.raise_amt)
 
+    @classmethod
+    def set_raise_amount(cls, amount):
+        cls.raise_amt = amount
+
+    @staticmethod
+    def is_workday(day):
+        if day.weekday() == 5 or day.weekday() == 6:
+            print('Not a workday go home')
+            return False
+        print('Yes a workday start working now')
+        return True
+
 # myobj = Employee.from_string('Onder-Eren-37000')
 myobj = Employee('Onder', 'Eren', 37000)
 
@@ -25,3 +37,11 @@ myobj = Employee('Onder', 'Eren', 37000)
 print(myobj.raise_amt)
 myobj.apply_raise()
 print(myobj.pay)
+
+import datetime
+
+my_date = datetime.date(2020, 10, 4)
+
+Employee.is_workday(my_date)
+
+
